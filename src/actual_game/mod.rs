@@ -1,3 +1,5 @@
+use std::ops::RangeBounds;
+
 use rand::Rng;
 use raylib::prelude::*;
 
@@ -34,7 +36,9 @@ impl Apple {
 
     pub fn handle_collision(&mut self, snake: &mut Snake) {
         let mut rng = rand::thread_rng();
-        if snake.x == self.x || self.y == snake.y {
+        if (snake.x - 50..=snake.x + 50).contains(&self.x)
+            && (snake.y - 50..=snake.y + 50).contains(&self.y)
+        {
             self.x = rng.gen_range(0..get_monitor_width(get_current_monitor()));
             self.y = rng.gen_range(0..get_monitor_height(get_current_monitor()));
             snake.width += 10;
